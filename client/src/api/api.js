@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:3000/api/records" });
+const API = axios.create({ baseURL: "https://newspaper-price-tracker.onrender.com/api/records" });
 
 export const getRecords = async () => (await API.get("/")).data;
 export const createRecord = async (data) => (await API.post("/", data)).data;
