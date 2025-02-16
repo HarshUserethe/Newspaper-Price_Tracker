@@ -24,50 +24,28 @@ router.put("/:id", async (req, res) => {
 });
 
 
-// Schedule a task to update total cost at 8 AM every day
-// cron.schedule("50 10 * * *", async () => {
-//   try {
-//     console.log("Running daily cost update job at 8 AM");
-//     const weekdays = [7, 6, 6, 6, 6, 7, 7]; // Sunday to Saturday prices
-//     const todayCost = weekdays[new Date().getDay()];
 
-//     const activeRecords = await Record.find({ endDate: null });
-//     for (const record of activeRecords) {
-//       record.totalCost += todayCost;
-//       record.daysCount += 1;
-//       await record.save();
-//     }
+router.get('/update-costs', async (req, res) => {
+  try {
+    console.log("Running daily cost update job via EasyCron");
 
-//     console.log("Daily cost update completed.");
-//   } catch (error) {
-//     console.error("Error updating daily costs:", error);
-//   }
-// });
+    const weekdays = [7, 6, 6, 6, 6, 7, 7]; // Sunday to Saturday prices
+    const todayCost = weekdays[new Date().getDay()];
 
-
-cron.schedule(
-  '0 8 * * *',
-  async () => {
-    try {
-      console.log("Running daily cost update job at 10:00 AM IST");
-      const weekdays = [7, 6, 6, 6, 6, 7, 7]; // Sunday to Saturday prices
-      const todayCost = weekdays[new Date().getDay()];
-
-      const activeRecords = await Record.find({ endDate: null });
-      for (const record of activeRecords) {
-        record.totalCost += todayCost;
-        record.daysCount += 1;
-        await record.save();
-      }
-
-      console.log("Daily cost update completed.");
-    } catch (error) {
-      console.error("Error updating daily costs:", error);
+    const activeRecords = await Record.find({ endDate: null });
+    for (const record of activeRecords) {
+      record.totalCost += todayCost;
+      record.daysCount += 1;
+      await record.save();
     }
-  },
-  {
-    timezone: "Asia/Kolkata", // Set timezone explicitly to IST
+
+    console.log("Daily cost update completed.");
+    res.send({ success: true, message: "Daily cost update completed." });
+  } catch (error) {
+    console.error("Error updating daily costs:", error);
+    res.status(500).send({ success: false, message: "Error updating daily costs." });
   }
-);
+});
+
 
 module.exports = router;
