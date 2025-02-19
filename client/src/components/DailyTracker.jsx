@@ -11,6 +11,8 @@ import {
 import { createRecord, updateRecord, getRecords } from "../api/api";
 import "../App.css";
 import {  Oval } from "react-loader-spinner";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const DailyTracker = () => {
   const [activeRecord, setActiveRecord] = useState(null);
@@ -88,7 +90,11 @@ const DailyTracker = () => {
   }, [activeRecord]);
 
   return (
-    <div
+    
+<>
+  {
+    records.length > 0 ? (
+      <div
       className="tracker-container"
       style={{
         display: "flex",
@@ -97,6 +103,7 @@ const DailyTracker = () => {
         flexDirection: "column",
       }}
     >
+  
       <div
         className="stats"
         style={{
@@ -230,6 +237,9 @@ const DailyTracker = () => {
         </Table>
       </div>
     </div>
+    ) : <Skeleton />
+  }
+</>
   );
 };
 
