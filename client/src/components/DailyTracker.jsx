@@ -10,9 +10,8 @@ import {
 } from "@mui/material";
 import { createRecord, updateRecord, getRecords } from "../api/api";
 import "../App.css";
-import {  Oval } from "react-loader-spinner";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import {  Oval, Puff } from "react-loader-spinner";
+
 
 const DailyTracker = () => {
   const [activeRecord, setActiveRecord] = useState(null);
@@ -237,7 +236,15 @@ const DailyTracker = () => {
         </Table>
       </div>
     </div>
-    ) : <Skeleton />
+    ) : (<Puff
+  visible={true}
+  height="80"
+  width="80"
+  color="#4fa94d"
+  ariaLabel="puff-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  />)
   }
 </>
   );
